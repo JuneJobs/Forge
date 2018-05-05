@@ -1,3 +1,4 @@
+//
 (function() {
     function getQueryParam(name, queryString) {
         var match = RegExp(name + '=([^&]*)').exec(queryString || location.search);
