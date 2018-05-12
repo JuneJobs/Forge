@@ -1,6 +1,6 @@
-﻿/// <reference path="../Resource/Scripts/ext-all-debug.js" />
-/// <reference path="../Resource/Scripts/component.js" />
-/// <reference path="../Resource/Scripts/noncomponent.js" />
+﻿/// <reference path="../Scripts/ext-all-debug.js" />
+/// <reference path="../Scripts/component.js" />
+/// <reference path="../Scripts/noncomponent.js" />
 /// <reference path="Main.view.js" />
 /**
 * @KMU Capston project

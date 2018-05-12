@@ -32,5 +32,5 @@ require('./Controller/common.js'); //공통 데이터베이스 쿼리
 
 
 app.listen(_webPort, function () {
-  console.log("The server is running");
+  console.log("The server is running 8080");
 });
