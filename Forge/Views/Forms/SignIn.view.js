@@ -20,11 +20,27 @@ var pnl_signIn = new Ext.Panel({
 
 var tbl_SignIn = ApTable.create(1);
 tbl_SignIn.setTarget();
-var lbl_hello = ApLabel.create("Qualcomm Institute");
+var img = ApImg.create('../Themes/logo-ucsd.png');
+img.setMargin('10 0 0 0');
+img.setSize(220, 70);
 var lbl_signIn = ApLabel.create("Sign in");
+lbl_signIn.addCls('fomtsizeAndColor');
 //lbl_signIn.
 var lbl_discrip = ApLabel.create("with your Qualcomm Institute Account");
-
+lbl_discrip.addCls('account');
+var lbl_uid = ApLabel.create('Email or phone');
+lbl_uid.addCls('uidLabel');
+var txt_uid = ApText.create('');
+var lbl_forgotEmail = ApLabel.create('Forgot email?');
+lbl_forgotEmail.addCls('hyperlinkLabel1');
+txt_uid.setWidth(400);
+var lbl_suggestion = ApLabel.create('Not your account? Use Your own Programs to sign in.');
+lbl_suggestion.addCls('lbl_suggestion');
+var lbl_createAccount = ApLabel.create('Create account');
+lbl_createAccount.addCls('hyperlinkLabel2');
+var btn_next = ApButton.create('NEXT');
+btn_next.setSize(80, 30);
+tbl_SignIn.cellShare(2);
 
 ApEvent.onlaod = function(){
     viewPanel.add(pnl_signIn);

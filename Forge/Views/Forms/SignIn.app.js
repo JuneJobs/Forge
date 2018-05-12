@@ -10,3 +10,10 @@
 * @return 
 * @auter Jack Compbel
 */
+lbl_createAccount.eClick = function () {
+    console.log('labelClick');
+}
+//lbl_createAccount.on("click", function () {
+//    console.log('labelClick');
+//});
+console.log('ko');

@@ -1332,17 +1332,23 @@ Ext.define('ApLabel', {
 });
 //label click event
 ApLabel.prototype.eClick = function () {
-    console.log('labelClick');
 }
 var ApLabel = {
     create: function (text) {
         var _ApLabel = Ext.create('ApLabel', {
             text: text,
+            //listeners: {
+            //    click: function (a, b) {
+            //        this.eClick();
+            //    }
+            //}//text,click event
             listeners: {
-                click: function (a, b) {
-                    this.eClick();
+                render: function (c) {
+                    c.getEl().on('click', function () {
+                        this.eClick();
+                    }, c);
                 }
-            }//text,click event
+            }
         })
         _setTarget(_ApLabel);
         return _ApLabel;
