@@ -34,7 +34,7 @@ var txt_uid = ApText.create('');
 var lbl_forgotEmail = ApLabel.create('Forgot email?');
 lbl_forgotEmail.addCls('hyperlinkLabel1');
 txt_uid.setWidth(400);
-var lbl_suggestion = ApLabel.create('Not your account? Use Your own Programs to sign in.');
+var lbl_suggestion = ApLabel.create("You don't have your account? Use Your own Programs to sign in.");
 lbl_suggestion.addCls('lbl_suggestion');
 var lbl_createAccount = ApLabel.create('Create account');
 lbl_createAccount.addCls('hyperlinkLabel2');
@@ -48,7 +48,6 @@ ApEvent.onlaod = function(){
     var hMargin = (viewPanel.getSize().height - pnl_signInHeight) / 2
     marginstr = hMargin.toString() + 'px ' + wMargin.toString() + 'px ' + hMargin.toString() + 'px ' + wMargin.toString() + 'px';
     pnl_signIn.setMargin(marginstr);
-
     pnl_signIn.add(tbl_SignIn);
 
     viewPanel.on('resize', function () {
