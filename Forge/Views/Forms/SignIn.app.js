@@ -12,78 +12,111 @@
 */
 lbl_createAccount.eClick = function () {
     console.log('labelClick');
-
-    var pnl_signUpHeight = 560;
-    var pnl_signUpWidth = 750;
-    
-    var pnl_signUp = new Ext.Panel({
-        width: pnl_signUpWidth,
-        frame: true,
-        height: pnl_signUpHeight,
-        layout: {
-            type: 'vbox',
-            align: 'center',
-            pack: 'center'
-        }
-    });
-    var tbl_SignUp = ApTable.create(1);
-    tbl_SignUp.setTarget();
-    var img_signUp = ApImg.create('../Themes/logo-ucsd.png');
-    img_signUp.setMargin('10 0 0 0');
-    img_signUp.setSize(110, 35);
-    var lbl_signUpCreateAccount = ApLabel.create("Create your Qualcomm Institute Account");
-
-    var txt_fisrtNm = ApText.create();
-    txt_fisrtNm.emptyText = 'Fist name';
-    txt_fisrtNm.applyEmptyText();
-
-    var txt_lastNm = ApText.create();
-    txt_lastNm.emptyText = 'Last name';
-    txt_lastNm.applyEmptyText();
-    tbl_SignUp.cellShare(2);
-
-    var txt_userNm = ApText.create();
-    txt_userNm.emptyText = 'Username';
-    txt_userNm.applyEmptyText();
-    var lbl_userNmExp = ApLabel.create("You can use letters, numbers");
-
-    var txt_Pw = ApText.create();
-    txt_Pw.emptyText = 'Password';
-    txt_Pw.applyEmptyText();
-    
-    var txt_ConfPw = ApText.create();
-    txt_ConfPw.emptyText = 'Confirm password';
-    txt_ConfPw.applyEmptyText();
-    tbl_SignUp.cellShare(2);
-    
-    var lbl_userNmExp = ApLabel.create("Use 8 or more characters with a mix of letters, numbers & symbols");
-
-    var lbl_signUpInstead = ApLabel.create("Sign in instead");
-    
-    var btn_signUpNext = ApButton.create('NEXT');
-    btn_signUpNext.setSize(80, 30);
-    tbl_SignUp.cellShare(2);
-
-
-    pnl_signUp.add(tbl_SignUp);
-    viewPanel.add(pnl_signUp);
-
-    var wMargin = (viewPanel.getSize().width - pnl_signUpWidth) / 2
-    var hMargin = (viewPanel.getSize().height - pnl_signUpHeight) / 2
-    marginstr = hMargin.toString() + 'px ' + wMargin.toString() + 'px ' + hMargin.toString() + 'px ' + wMargin.toString() + 'px';
-    pnl_signUp.setMargin(marginstr);
-
-    viewPanel.on('resize', function () {
-        var wMargin = (viewPanel.getSize().width - pnl_signUpWidth) / 2
-        var hMargin = (viewPanel.getSize().height - pnl_signUpHeight) / 2
-        marginstr = hMargin.toString() + 'px ' + wMargin.toString() + 'px ' + hMargin.toString() + 'px ' + wMargin.toString() + 'px';
-        pnl_signUp.setMargin(marginstr);
-    });
-
-    lbl_signUpInstead.eClick = function () {
-        viewPanel.remove(pnl_signUp);
-        viewPanel.items.items[0].show();
-    }
     
     viewPanel.items.items[0].hide();
+    viewPanel.items.items[1].show();
+    fnOptimizePanelSize(pnl_signUp, signUpHeight, signUpWidth);
+}
+lbl_signUpInstead.eClick = function () {
+    viewPanel.items.items[0].show();
+    viewPanel.items.items[1].hide();
+}
+btn_signUpNext.eClick = function () {
+    
+    if (txt_fisrtNm.getValue() == '') {
+        ApMsg.warning('Enter your first name.', function () {
+            txt_fisrtNm.focus();
+        })
+        return;
+    }
+    if (txt_lastNm.getValue() == '') {
+        ApMsg.warning('Enter your last name.', function () {
+            txt_lastNm.focus();
+        })
+        return;
+    }
+    if (txt_userId.getValue() == '') {
+        ApMsg.warning('Enter your user id.', function () {
+            txt_userId.focus();
+        })
+        return;
+    }
+    
+    if (!/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(txt_userId.getValue())) {
+        ApMsg.warning('Incorrect email type.', function () {
+            txt_userId.focus();
+        })
+        return;
+    }
+    if (txt_Pw.getValue() == '') {
+        ApMsg.warning('Enter your password.', function () {
+            txt_Pw.focus();
+        })
+        return;
+    }
+    if (txt_ConfPw.getValue() == '') {
+        ApMsg.warning('Enter your confirm password.', function () {
+            txt_ConfPw.focus();
+        })
+        return;
+    }
+
+    if (txt_Pw.getValue() != txt_ConfPw.getValue()) {
+        ApMsg.warning('Enter your confirm password.', function () {
+            txt_ConfPw.focus();
+        })
+        return;
+    }
+    
+    viewPanel.items.items[1].hide();
+    viewPanel.items.items[2].show();
+    fnOptimizePanelSize(pnl_signUpVerify, signUpHeight, signUpWidth);
+}
+lbl_backToSignUp.eClick = function () {
+    viewPanel.items.items[1].show();
+    viewPanel.items.items[2].hide();
+    clearInterval(timer);
+    lbl_remainTime.setText("");
+    lbl_emailNoti2.setText("");
+}
+
+btn_sendVerifyMail.eClick = function() {
+    if (lbl_remainTime.text != ""){
+        ApMsg.warning('Authentication code already sended.');
+        return;
+    }
+    Ext.Ajax.request({
+        async: false,
+        url: '/sendVerifyMail',
+        method: 'GET',
+        params: {
+            FISRTNAME: txt_fisrtNm.getValue(),
+            LASTNAME: txt_lastNm.getValue(),
+            USERID: txt_userId.getValue(),
+            PASSWORD: txt_Pw.getValue()
+        },
+        reader: {
+            type: 'json'
+        },
+        success: function (response, eOpt) {
+            lbl_emailNoti2.setText("We will send a e-mal with a authentication code. Standard rates apply.");
+            var x = 300;
+            timer = setInterval(function () {
+                var seconds = (Math.floor(x % 60)).toString();
+                if (seconds.length == 1) {
+                    seconds = "0" + seconds;
+                }
+                lbl_remainTime.setText(Math.floor(x / 60).toString() + ":" + seconds);
+                if (x > 0) {
+                    x = x - 1;
+                } else {
+                    clearInterval(timer);
+                    lbl_signUpInstead.eClick();
+                }
+            }, 1000)
+        },
+        failure: function (response, options) {
+            ApMsg.warning('Connection error.');
+        }
+    });
 }

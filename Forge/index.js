@@ -7,6 +7,24 @@ var bodyParser = require('body-parser');
 global.app = express();
 global.router = express.Router(); //라우터 객체 생성
 global.path = __dirname;
+const nodemailer = require('nodemailer');
+global.transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user:'jack7777ok@gmail.com',
+    pass:'wnsgml90'
+  }
+})
+global.redis = require("redis"),
+redisCli = redis.createClient();
+redisCli.on("error", function(err){
+  console.log("redis Error: "+ err);
+});
+redisCli.get("tempUi", function (err, reply) {
+  if(reply == "0"){
+    redisCli.set("tempUi", "1");
+  }
+});
 
 var allowCORS = function(req, res, next) {
   res.header('Acess-Control-Allow-Origin', '*');

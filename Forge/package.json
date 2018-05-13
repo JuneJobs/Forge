@@ -12,6 +12,8 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "google-translate-api": "^2.3.0",
+    "nodemailer": "^4.6.4",
+    "redis": "^2.8.0",
     "x-frame-options": "^1.0.0"
   }
 }
