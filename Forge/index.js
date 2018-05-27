@@ -26,6 +26,8 @@ redisCli.get("tempUi", function (err, reply) {
   }
 });
 
+global.codeGen = require('node-code-generator');
+
 var allowCORS = function(req, res, next) {
   res.header('Acess-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
