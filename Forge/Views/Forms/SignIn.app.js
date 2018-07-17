@@ -120,3 +120,30 @@ btn_sendVerifyMail.eClick = function() {
         }
     });
 }
+
+btn_signUpVerfyNext.eClick = function () {
+    if (txt_vrfyInput.text != "") {
+        ApMsg.warning('Authentication code is empty.');
+        return;
+    }
+    Ext.Ajax.request({
+        async: false,
+        url: '/sendVerify',
+        method: 'GET',
+        params: {
+            FISRTNAME: txt_fisrtNm.getValue(),
+            LASTNAME: txt_lastNm.getValue(),
+            USERID: txt_userId.getValue(),
+            PASSWORD: txt_Pw.getValue()
+        },
+        reader: {
+            type: 'json'
+        },
+        success: function (response, eOpt) {
+            
+        },
+        failure: function (response, options) {
+            ApMsg.warning('Connection error.');
+        }
+    })
+}

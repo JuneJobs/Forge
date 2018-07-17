@@ -1,5 +1,5 @@
 //var http = require('http');//
-var _webPort = 8080;
+var _webPort = 9090;
 
 var express = require("express");
 //var xFrameOptions = require('x-frame-options');
@@ -52,5 +52,5 @@ require('./Controller/common.js'); //공통 데이터베이스 쿼리
 
 
 app.listen(_webPort, function () {
-  console.log("The server is running 8080");
+  console.log("The server is running 9090");
 });
